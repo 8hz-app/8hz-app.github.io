@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Azazie Atelier Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --blush:#f4e9e6; --ink:#111; --muted:#777; --line:#e5e5e5; }
+    body { font-family: Inter, Arial, Helvetica, sans-serif; color: var(--ink); }
+    .serif { font-family: Georgia, 'Times New Roman', serif; }
+    .hide-scrollbar::-webkit-scrollbar { display:none; }
+    .hide-scrollbar { -ms-overflow-style:none; scrollbar-width:none; }
+    .vertical-offer { writing-mode: vertical-rl; transform: rotate(180deg); }
+    .swatch { width: 10px; height: 10px; border-radius: 999px; border:1px solid #bbb; display:inline-block; }
+    .modal-open { overflow: hidden; }
+  </style>
+</head>
+<body class="bg-white">
+  <div class="bg-black text-white text-xs h-7 flex items-center justify-center px-4 gap-3">
+    <span class="font-semibold">Pop-Up Tour:</span>
+    <span class="hidden sm:inline">LA 4/25 · Dallas 5/2 · Phoenix 5/3 · San Jose 5/9 · San Antonio 5/9 · Fresno 5/17 · San Diego 5/17 · Houston 5/17</span>
+    <button class="border border-white px-2 py-0.5 text-[10px] hover:bg-white hover:text-black transition">BOOK NOW ›</button>
+  </div>
+
+  <header class="border-b border-gray-200 bg-white sticky top-0 z-30">
+    <div class="flex items-center justify-between h-12">
+      <div class="flex h-full text-gray-400 tracking-[.28em] text-xs uppercase">
+        <button class="px-7 border-r hover:text-black">Azazie</button>
+        <button class="px-7 border-r hover:text-black">Bridal</button>
+        <button class="px-7 border-r text-black bg-gray-50 font-semibold">Atelier</button>
+        <button class="px-7 border-r hover:text-black">Suits</button>
+      </div>
+      <div class="hidden md:flex items-center gap-3 pr-6">
+        <div class="flex border border-gray-300 h-8">
+          <input id="searchInput" class="w-72 px-3 text-xs outline-none" value="bridesmaid dresses" aria-label="Search" />
+          <button id="searchBtn" class="w-10 bg-black text-white" aria-label="Search">⌕</button>
+        </div>
+        <button aria-label="Store">♧</button><button aria-label="Account">♡</button><button aria-label="Cart">🛍</button><button aria-label="Language">🇺🇸</button>
+      </div>
+    </div>
+    <nav class="h-9 flex items-center justify-center gap-9 text-xs border-t border-gray-100 overflow-x-auto hide-scrollbar px-4">
+      <a class="hover:underline" href="#">New</a>
+      <a class="underline underline-offset-8 font-medium" href="#">Dresses</a>
+      <a class="hover:underline" href="#">Wedding Guest</a>
+      <a class="hover:underline" href="#">Occasion</a>
+      <a class="hover:underline" href="#">Cocktail</a>
+      <a class="hover:underline" href="#">Evening</a>
+      <a class="hover:underline" href="#">Prom & Party</a>
+      <a class="hover:underline" href="#">Date Night</a>
+      <a class="hover:underline" href="#">Graduation</a>
+      <a class="hover:underline" href="#">Summer</a>
+      <a class="hover:underline" href="#">Shoes</a>
+      <a class="hover:underline" href="#">Accessories</a>
+      <a class="hover:underline" href="#">Clearance</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="bg-[#f4e9e6] py-8">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <h1 class="serif text-5xl mb-2">Azazie Atelier</h1>
+        <p class="text-lg mb-6">Click <button class="underline font-medium">“SHIPS NOW”</button> styles and get them in 4-8 days.</p>
+        <div id="categoryRow" class="flex gap-5 overflow-x-auto hide-scrollbar pb-2 justify-start xl:justify-center"></div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-6 py-6 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8">
+      <aside id="filterSidebar" class="lg:sticky lg:top-28 h-fit bg-white">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xs font-bold">FILTERS:</h2>
+          <button id="clearFilters" class="text-xs underline hidden">Clear</button>
+        </div>
+        <label class="flex items-center gap-2 border-b py-4 text-xs font-semibold cursor-pointer">
+          <input id="shipsToggle" type="checkbox" class="accent-black" /> ⚡ SHIPS NOW
+        </label>
+        <div id="accordionList"></div>
+      </aside>
+
+      <section>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div class="flex items-baseline gap-4">
+            <h2 class="text-sm font-bold uppercase">Formal Dresses & Evening Gowns</h2>
+            <span id="itemCount" class="text-xs text-gray-500">649 Items</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs">
+            <span>SORT BY:</span>
+            <select id="sortSelect" class="border border-gray-300 h-8 px-3 bg-white">
+              <option>Most Popular</option>
+              <option>New Arrivals</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+            </select>
+            <button class="border p-1" aria-label="List view">□</button>
+            <button class="border p-1" aria-label="Grid view">▦</button>
+          </div>
+        </div>
+        <div id="productGrid" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+      </section>
+    </section>
+  </main>
+
+  <button id="offerTab" class="fixed right-0 top-2/3 bg-black text-white text-xs px-2 py-3 z-40 vertical-offer tracking-wider">GET 10% OFF</button>
+  <div id="offerPanel" class="hidden fixed right-8 top-1/2 -translate-y-1/2 bg-white border shadow-2xl z-50 w-72 p-5">
+    <button class="float-right" data-close-offer>×</button>
+    <h3 class="serif text-2xl mb-2">Get 10% Off</h3>
+    <p class="text-sm text-gray-600 mb-4">Sign up for style updates and a first-order offer.</p>
+    <input class="border w-full px-3 py-2 text-sm mb-3" placeholder="Email address" />
+    <button class="bg-black text-white w-full py-2 text-sm">Sign Up</button>
+  </div>
+
+  <button id="chatBtn" class="fixed right-6 bottom-6 bg-[#f4e9e6] w-14 h-14 rounded-full shadow-lg z-40 text-xl" aria-label="Open chat">●</button>
+  <div id="chatPanel" class="hidden fixed right-6 bottom-24 bg-white border shadow-2xl z-50 w-80 p-5">
+    <button class="float-right" data-close-chat>×</button>
+    <h3 class="font-bold mb-2">Azazie Help</h3>
+    <p class="text-sm text-gray-600 mb-3">Hi! Need help finding a dress?</p>
+    <input class="border w-full px-3 py-2 text-sm" placeholder="Type your question..." />
+  </div>
+
+  <div id="modal" class="hidden fixed inset-0 bg-black/50 z-50 items-center justify-center p-4" role="dialog" aria-modal="true">
+    <div class="bg-white max-w-4xl w-full grid md:grid-cols-2 relative">
+      <button id="closeModal" class="absolute right-4 top-3 text-2xl z-10" aria-label="Close quick view">×</button>
+      <img id="modalImg" class="w-full h-[560px] object-cover" alt="Selected product" />
+      <div class="p-8">
+        <p class="text-xs uppercase text-gray-500 mb-2">Quick View</p>
+        <h3 id="modalName" class="serif text-3xl mb-2"></h3>
+        <p id="modalPrice" class="text-xl mb-4"></p>
+        <p class="text-sm mb-4">★★★★★ <span class="text-gray-500">128 reviews</span></p>
+        <div id="modalSwatches" class="mb-5 flex gap-2"></div>
+        <label class="block text-xs font-bold mb-2">SIZE</label>
+        <select class="border w-full p-3 mb-4"><option>Select a size</option><option>0</option><option>2</option><option>4</option><option>6</option><option>8</option></select>
+        <label class="block text-xs font-bold mb-2">QUANTITY</label>
+        <input type="number" value="1" min="1" class="border w-24 p-3 mb-6" />
+        <button class="bg-black text-white w-full py-4 uppercase tracking-widest">Add to Bag</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+const img = (seed) => `https://images.unsplash.com/photo-${seed}?auto=format&fit=crop&w=600&q=80`;
+const categories = [
+  ['New Arrivals', img('1515372039744-b8f02a3ae446')], ['Wedding Guest\nDresses', img('1524504388940-b1c1722653e1')], ['Cocktail Dresses', img('1595777457583-95e059d581b8')], ['Evening Dresses', img('1566174053879-31528523f8ae')], ['Gala Ready', img('1509631179647-0177331693ae')], ['Midi Dresses', img('1515886657613-9f3515b0c78f')], ['Prom Dresses', img('1539008835657-9e8e9680c956')], ['Accessories', img('1601924638867-3ec1c3f4a7b7')]
+];
+let products = [
+  {name:'Lolla Green Floral Maxi Dress', price:129, badge:false, colors:['#7b8b58','#f1e5d2'], img:img('1502716119720-b23a93e5fe1b')},
+  {name:'Calantha Vintage Teal Maxi Dress', price:129, badge:true, colors:['#55756a','#d3a77b'], img:img('1503342217505-b0a15ec3261c')},
+  {name:'Evangeline Blush Pink Multi Maxi Dress', price:229, badge:true, colors:['#e9d8cd','#94a77d','#d4a0a0','#f6f2ea'], img:img('1549062572-544a64fb0c56')},
+  {name:'Astra French White Midi Dress', price:159, badge:false, colors:['#f8f4ea','#c9b9ad'], img:img('1496747611176-843222e1e57c')},
+  {name:'Celeste Red Satin Gown', price:189, badge:true, colors:['#9f1d1d','#4a1919'], img:img('1487412720507-e7ab37603c6f')},
+  {name:'Maris Blue Slip Dress', price:119, badge:false, colors:['#9eb4c8','#f7d7d9'], img:img('1529139574466-a303027c1d8b')},
+  {name:'Ruelle Ivory Corset Dress', price:249, badge:true, colors:['#f4eadc','#d9c2ae'], img:img('1512436991641-6745cdb1723f')},
+  {name:'Odette Floral Tea Dress', price:139, badge:false, colors:['#eadbd2','#7d9b72'], img:img('1509631179647-0177331693ae')}
+];
+const filters = { Color:['Pink','Green','Blue','Red','White'], 'Print Type':['Floral','Solid','Jacquard'], Price:['Under $100','$100–$200','$200+'], Length:['Mini','Midi','Maxi'], Fabric:['Satin','Tulle','Chiffon'], 'Fabric Weight':['Light','Medium','Heavy'], Silhouette:['A-Line','Mermaid','Sheath'], Sleeves:['Sleeveless','Straps','Long Sleeve'], Neckline:['Strapless','V-Neck','Square'] };
+
+function renderCategories(){
+  categoryRow.innerHTML = categories.map(([name, src]) => `<button class="group min-w-[170px] text-center"><div class="overflow-hidden bg-white mb-3"><img src="${src}" alt="${name.replace('\n',' ')}" class="w-[170px] h-[225px] object-cover group-hover:scale-105 transition duration-300"></div><span class="font-bold underline whitespace-pre-line">${name}</span></button>`).join('');
+}
+function renderAccordions(){
+  accordionList.innerHTML = Object.entries(filters).map(([title, opts]) => `<div class="border-b"><button class="w-full flex items-center justify-between py-4 text-xs font-bold uppercase" data-accordion aria-expanded="false"><span>${title}</span><span class="icon text-lg">+</span></button><div class="hidden pb-4 space-y-2">${opts.map(o=>`<label class="flex items-center gap-2 text-sm text-gray-600"><input type="checkbox" class="accent-black"> ${o}</label>`).join('')}</div></div>`).join('');
+  document.querySelectorAll('[data-accordion]').forEach(btn=>btn.addEventListener('click',()=>{const p=btn.nextElementSibling; p.classList.toggle('hidden'); btn.setAttribute('aria-expanded', !p.classList.contains('hidden')); btn.querySelector('.icon').textContent=p.classList.contains('hidden')?'+':'−';}));
+}
+function renderProducts(list=products){
+  productGrid.innerHTML = list.map((p,i)=>`<article class="group cursor-pointer" data-product="${i}"><div class="relative overflow-hidden bg-gray-100"><img src="${p.img}" alt="${p.name}" class="w-full aspect-[3/4] object-cover group-hover:scale-105 transition duration-300">${p.badge?'<div class="absolute left-2 top-2 bg-white/90 text-[10px] font-bold px-2 py-1">⚡ SHIPS NOW</div>':''}<button class="heart absolute right-2 top-2 bg-black/25 text-white w-7 h-7 rounded-full" aria-label="Favorite">♡</button></div><div class="text-center pt-3 text-xs"><div class="mb-2">${p.colors.map(c=>`<span class="swatch" style="background:${c}"></span>`).join(' ')}</div><h3 class="font-semibold">${p.name}</h3><p class="font-bold mt-1">$${p.price}</p><p class="text-gray-500 mt-1">★★★★★ (128)</p></div></article>`).join('');
+  document.querySelectorAll('.heart').forEach(btn=>btn.addEventListener('click',e=>{e.stopPropagation(); btn.textContent = btn.textContent==='♡'?'♥':'♡'; btn.classList.toggle('bg-black');}));
+  document.querySelectorAll('[data-product]').forEach(card=>card.addEventListener('click',()=>openModal(products[+card.dataset.product])));
+}
+function openModal(p){ modalImg.src=p.img; modalName.textContent=p.name; modalPrice.textContent='$'+p.price; modalSwatches.innerHTML=p.colors.map(c=>`<span class="swatch !w-5 !h-5" style="background:${c}"></span>`).join(''); modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.classList.add('modal-open'); }
+function closeModalFn(){ modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.classList.remove('modal-open'); }
+
+renderCategories(); renderAccordions(); renderProducts();
+sortSelect.addEventListener('change', e=>{ let sorted=[...products]; if(e.target.value.includes('Low')) sorted.sort((a,b)=>a.price-b.price); if(e.target.value.includes('High')) sorted.sort((a,b)=>b.price-a.price); if(e.target.value==='New Arrivals') sorted.reverse(); renderProducts(sorted); });
+shipsToggle.addEventListener('change', e=>{ clearFilters.classList.toggle('hidden', !e.target.checked); const list=e.target.checked?products.filter(p=>p.badge):products; itemCount.textContent=(e.target.checked?list.length:649)+' Items'; renderProducts(list); });
+clearFilters.addEventListener('click',()=>{ shipsToggle.checked=false; clearFilters.classList.add('hidden'); itemCount.textContent='649 Items'; renderProducts(); });
+closeModal.addEventListener('click', closeModalFn); modal.addEventListener('click', e=>{ if(e.target===modal) closeModalFn(); }); document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModalFn(); });
+offerTab.addEventListener('click',()=>offerPanel.classList.toggle('hidden')); document.querySelector('[data-close-offer]').addEventListener('click',()=>offerPanel.classList.add('hidden'));
+chatBtn.addEventListener('click',()=>chatPanel.classList.toggle('hidden')); document.querySelector('[data-close-chat]').addEventListener('click',()=>chatPanel.classList.add('hidden'));
+searchBtn.addEventListener('click',()=>alert(`Searching for: ${searchInput.value}`));
+</script>
+</body>
+</html>
